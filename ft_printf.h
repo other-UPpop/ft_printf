@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 12:21:34 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/10 09:07:27 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/10 12:40:18 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,15 @@ char	*ft_apply_character(char c);
 char	*ft_apply_itoa_base(long long nbr, size_t base_len, const char *base);
 char	*ft_apply_itoa_hexas(unsigned long long nbr, size_t base_len, const char *base);
 
+size_t	ft_write_params(t_parameters *params);
+static void	ft_manage_flags(t_parameters *params, ssize_t *len, long *index,size_t *pb);
+
+void ft_apply_perfixes(t_parameters *params, size_t *pb);
+void	ft_apply_precision(t_parameters *params, ssize_t *len, long *index, size_t *pb);
+void	ft_apply_conversion(t_parameters *params, ssize_t *len, size_t *pb);
+ssize_t	ft_apply_width(t_parameters *params, ssize_t *len, long *index, size_t *pb);
+void	ft_apply_zero_flag(t_parameters *params, ssize_t *len, long *index, size_t *pb);
+size_t	ft_lputstr_fd(char *s, int fd);
+
+void	ft_free_params(t_parameters *params);
 #endif
