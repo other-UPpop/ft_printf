@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:05:20 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 01:18:23 by rohta            ###   ########.fr       */
+/*   Created: 2024/04/19 02:01:47 by rohta             #+#    #+#             */
+/*   Updated: 2024/05/18 20:02:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf(const char *format, ...)
+char	*ft_strchr(const char *s, int c)
 {
-	va_list	arg_ptr;
-	size_t	printf_byte;
-	t_parameters	*params;
+	unsigned char	uc;
 
-	printf_byte = 0;
-	params = NULL;
-	if (!format)
-		return (printf_ERROR);
-	va_start(arg_ptr, format);
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			params = (t_parameters *)ft_calloc(1, sizeof(t_parameters));
-			format = ft_check_params(params, (char *)format, arg_ptr);
-		}
-	}
+	uc = (unsigned char)c;
+	while (*s && *s != uc)
+		s++;
+	if (*s == uc)
+		return ((char *)(s));
+	return (NULL);
 }

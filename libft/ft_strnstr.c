@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:05:20 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 01:18:23 by rohta            ###   ########.fr       */
+/*   Created: 2024/04/19 04:07:55 by rohta             #+#    #+#             */
+/*   Updated: 2024/05/22 16:38:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf(const char *format, ...)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	va_list	arg_ptr;
-	size_t	printf_byte;
-	t_parameters	*params;
+	size_t	i;
 
-	printf_byte = 0;
-	params = NULL;
-	if (!format)
-		return (printf_ERROR);
-	va_start(arg_ptr, format);
-	while (*format)
+	i = 0;
+	if (!*needle)
+		return ((char *)(haystack));
+	i = ft_strlen(needle);
+	if (len == 0)
+		return (NULL);
+	while (*haystack && len >= i)
 	{
-		if (*format == '%')
+		if (ft_strncmp(haystack, needle, i) == 0)
 		{
-			params = (t_parameters *)ft_calloc(1, sizeof(t_parameters));
-			format = ft_check_params(params, (char *)format, arg_ptr);
+			return ((char *)(haystack));
 		}
+		haystack++;
+		len--;
 	}
+	return (NULL);
 }

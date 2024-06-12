@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:05:20 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 01:18:23 by rohta            ###   ########.fr       */
+/*   Created: 2024/04/19 03:30:31 by rohta             #+#    #+#             */
+/*   Updated: 2024/05/14 17:49:56 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf(const char *format, ...)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	va_list	arg_ptr;
-	size_t	printf_byte;
-	t_parameters	*params;
+	const char	*str1;
+	size_t		i;
 
-	printf_byte = 0;
-	params = NULL;
-	if (!format)
-		return (printf_ERROR);
-	va_start(arg_ptr, format);
-	while (*format)
+	str1 = (const char *)s;
+	i = 0;
+	while (i < n)
 	{
-		if (*format == '%')
-		{
-			params = (t_parameters *)ft_calloc(1, sizeof(t_parameters));
-			format = ft_check_params(params, (char *)format, arg_ptr);
-		}
+		if (*str1 == ((char)c))
+			return ((void *)(str1));
+		i++;
+		str1++;
 	}
+	return (NULL);
 }

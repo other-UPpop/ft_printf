@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:05:20 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 01:18:23 by rohta            ###   ########.fr       */
+/*   Created: 2024/04/25 23:57:49 by rohta             #+#    #+#             */
+/*   Updated: 2024/05/14 18:37:06 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf(const char *format, ...)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	va_list	arg_ptr;
-	size_t	printf_byte;
-	t_parameters	*params;
+	size_t	str_len1;
+	size_t	str_len2;
+	char	*p;
 
-	printf_byte = 0;
-	params = NULL;
-	if (!format)
-		return (printf_ERROR);
-	va_start(arg_ptr, format);
-	while (*format)
-	{
-		if (*format == '%')
-		{
-			params = (t_parameters *)ft_calloc(1, sizeof(t_parameters));
-			format = ft_check_params(params, (char *)format, arg_ptr);
-		}
-	}
+	if (s1 == NULL && s2 == NULL)
+		return (NULL);
+	str_len1 = ft_strlen((char *)(s1));
+	str_len2 = ft_strlen((char *)(s2));
+	p = (char *)malloc(str_len1 + str_len2 + 1);
+	if (p == NULL)
+		return (NULL);
+	ft_memmove(p, s1, str_len1);
+	ft_memmove(p + str_len1, s2, str_len2 + 1);
+	return (p);
 }

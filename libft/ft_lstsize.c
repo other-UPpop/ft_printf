@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:05:20 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 01:18:23 by rohta            ###   ########.fr       */
+/*   Created: 2024/05/21 17:33:59 by rohta             #+#    #+#             */
+/*   Updated: 2024/05/21 17:38:31 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
-int	ft_printf(const char *format, ...)
+int	ft_lstsize(t_list *lst)
 {
-	va_list	arg_ptr;
-	size_t	printf_byte;
-	t_parameters	*params;
+	int	i;
 
-	printf_byte = 0;
-	params = NULL;
-	if (!format)
-		return (printf_ERROR);
-	va_start(arg_ptr, format);
-	while (*format)
+	i = 0;
+	while (lst)
 	{
-		if (*format == '%')
-		{
-			params = (t_parameters *)ft_calloc(1, sizeof(t_parameters));
-			format = ft_check_params(params, (char *)format, arg_ptr);
-		}
+		lst = lst -> next;
+		i++;
 	}
+	return (i);
 }

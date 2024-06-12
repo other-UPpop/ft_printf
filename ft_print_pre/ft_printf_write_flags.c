@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 10:09:38 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/10 12:22:36 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/11 14:13:22 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,11 @@ void ft_apply_perfixes(t_parameters *params, size_t *pb)
 	if (params->flags->by_space && ft_strchr("id", params->specifier))
 		if (ft_atoi(params->converted) >= 0)
 			*pb += write(STDOUT_FD, " ", sizeof(char));
-	if (params->flags->by_hashtag && ft_strchr("oxX", params->specifier
+	if (params->flags->by_hashtag && ft_strchr("xX", params->specifier
 				&& *(params->converted) != '0'))
 	{
 		*pb += write(STDOUT_FD, "0", sizeof(char));
-		if (ft_strrchr("xX", params->specifier))
-			*pb += write(STDOUT_FD, &(params->specifier), sizeof(char));
+		*pb += write(STDOUT_FD, &(params->specifier), sizeof(char));
 	}
 }
 

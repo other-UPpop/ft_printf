@@ -5,103 +5,67 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/08 12:21:34 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/10 12:40:18 by rohta            ###   ########.fr       */
+/*   Created: 2024/06/12 00:02:51 by rohta             #+#    #+#             */
+/*   Updated: 2024/06/13 00:37:59 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "libft/libft/libft.h"
+# include "libft/libft.h"
 # include <stdarg.h>
 # include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifndef FLAGS
-#  define FLAGS "-+ 0#"
-# endif
-
-# ifndef PRINTF_ERROR
-#  define PRINTF_ERROR -1
+# ifndef printf_ERROR
+#  define printf_ERROR 0
 # endif
 
 # ifndef NOT_SPEC
-#  define NOT_SPEC -1
+#  define NOT_SPEC 0
 # endif
 
-# ifndef BINARIES
-#  define BINARIES "01"
-# endif
-
-# ifndef OCTALS
-#  define OCTALS "012345667"
+# ifndef FLAGS
+#  define FLAGS "-+ 0#"
 # endif
 
 # ifndef DESIMALS
 #  define DESIMALS "0123456789"
 # endif
 
-# ifndef U_HEXAS
-#  define U_HEXAS "0123456789ABCDEF"
+# ifndef LOW_HEX;
+#  define LOW_HEX "0123456789abcdef"
 # endif
 
-# ifndef L_HEXAS
-#  define L_HEXAS "0123456789abcdef"
-# endif
-
-# ifndef STDOUT_FD
-#  define STDOUT_FD 1
+# ifndef UP_HEX;
+#  define UP_HEX "012345678ABCDEF"
 # endif
 
 typedef struct s_flags
 {
-	bool	by_minus;
-	bool	by_plus;
-	bool	by_space;
-	bool	by_zero;
-	bool	by_hashtag;
-}	t_flags;
+	bool	flag_minus;
+	bool	flag_plus;
+	bool	flag_space;
+	bool	flag_zero;
+	bool	flag_hashtag;
+} t_flags;
 
 typedef struct s_parameters
 {
 	t_flags	*flags;
 	ssize_t	*width;
 	ssize_t	*precision;
+	ssize_t	*base;
 	char		*converted;
 	char		specifier;
-}	t_parameters;
+} t_parameters;
 
-int	ft_printf(const char *str, ...);
 
-char	*ft_check_params(t_parameters *params, char *format, va_list ap);
-char	*ft_check_flags(char *format, t_flags *flags);
-char	*ft_check_mods(char *format, ssize_t *width, ssize_t *precision);
-ssize_t *ft_set_worp(char format, ssize_t *width, ssize_t *precision);
+char	*ft_check_params(t_parameters *params, char *format, va_list arg_ptr);
+void	ft_initialize_params(t_parameters *params);
+char	*ft_apply_base(long long arg, size_t base_len, char *base);
+char	*ft_apply_hex(unsigned long long arg, size_t base_len, const char *base);
 
-void	ft_init_params(t_parameters *params);
-static void ft_init_falgs(t_flags *flags);
-static void ft_init_smods(ssize_t *width, ssize_t *precision);
-
-char	*ft_apply_specifier(char	specifier, va_list ap);
-
-char	*ft_apply_string(char *str);
-char	*ft_apply_pointer(size_t nbr);
-char	*ft_apply_character(char c);
-
-char	*ft_apply_itoa_base(long long nbr, size_t base_len, const char *base);
-char	*ft_apply_itoa_hexas(unsigned long long nbr, size_t base_len, const char *base);
-
-size_t	ft_write_params(t_parameters *params);
-static void	ft_manage_flags(t_parameters *params, ssize_t *len, long *index,size_t *pb);
-
-void ft_apply_perfixes(t_parameters *params, size_t *pb);
-void	ft_apply_precision(t_parameters *params, ssize_t *len, long *index, size_t *pb);
-void	ft_apply_conversion(t_parameters *params, ssize_t *len, size_t *pb);
-ssize_t	ft_apply_width(t_parameters *params, ssize_t *len, long *index, size_t *pb);
-void	ft_apply_zero_flag(t_parameters *params, ssize_t *len, long *index, size_t *pb);
-size_t	ft_lputstr_fd(char *s, int fd);
-
-void	ft_free_params(t_parameters *params);
 #endif

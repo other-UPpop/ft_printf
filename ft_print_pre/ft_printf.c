@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:05:20 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 01:18:23 by rohta            ###   ########.fr       */
+/*   Created: 2024/06/08 12:13:45 by rohta             #+#    #+#             */
+/*   Updated: 2024/06/10 12:39:56 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,28 @@
 
 int	ft_printf(const char *format, ...)
 {
-	va_list	arg_ptr;
-	size_t	printf_byte;
+	va_list	ap;
+	size_t	pb;
 	t_parameters	*params;
 
-	printf_byte = 0;
+	pb = 0;
 	params = NULL;
 	if (!format)
-		return (printf_ERROR);
-	va_start(arg_ptr, format);
+		return (PRINTF_ERROR);
+	va_start(ap, format);
 	while (*format)
 	{
 		if (*format == '%')
 		{
 			params = (t_parameters *)ft_calloc(1, sizeof(t_parameters));
-			format = ft_check_params(params, (char *)format, arg_ptr);
+			format = ft_check_params(params, (char *)format, ap);
+			pb += ft_write_params(params);
+			ft_free_params(params);
 		}
+		else
+			pb += write(STDOUT_FD, &(*format), sizeof(char));
+		++format;
 	}
+	va_end(ap);
+	return (pb);
 }

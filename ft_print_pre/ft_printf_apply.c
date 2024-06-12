@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:04:47 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/08 18:31:39 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/11 14:12:36 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@ char	*ft_apply_specifier(char specifier, va_list ap)
 		str = ft_apply_string(va_arg(ap, char *));
 	else if (specifier == 'p')
 		str = ft_apply_pointer(va_arg(ap, size_t));
-	else if (specifier == 'o')
-		str = ft_apply_itoa_base(va_arg(ap, size_t), 8, OCTALS);
-	else if (specifier == 'b')
-		str = ft_apply_itoa_base(va_arg(ap, size_t), 2, BINARIES);
 	else if (specifier == 'd')
 		str = ft_apply_itoa_base(va_arg(ap, int), 10, DESIMALS);
 	else if (specifier == 'i')
