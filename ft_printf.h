@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 00:02:51 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/13 00:37:59 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/13 13:20:07 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ char	*ft_check_params(t_parameters *params, char *format, va_list arg_ptr);
 void	ft_initialize_params(t_parameters *params);
 char	*ft_apply_base(long long arg, size_t base_len, char *base);
 char	*ft_apply_hex(unsigned long long arg, size_t base_len, const char *base);
+char	*ft_apply_character(char c);
 
 #endif

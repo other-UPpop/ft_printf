@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 00:33:41 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 22:32:02 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/13 14:59:59 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ static char	*ft_apply_specifier(char specifier, va_list arg_ptr)
 	else if (specifier == 'd' || specifier == 'i')
 		str = ft_apply_base(va_arg(arg_ptr, int), 10, DESIMALS);
 	else if (specifier == 'u')
-		str = ft_apply_base(va_arg(arg_ptr, unsigned int), 10, DESIMALS);
+		str = ft_apply_hex(va_arg(arg_ptr, unsigned int), 10, DESIMALS);
 	else if (specifier == 'x')
-		str = ft_apply_base(va_arg(arg_ptr, unsigned int), 16, LOW_HEX);
+		str = ft_apply_hex(va_arg(arg_ptr, unsigned int), 16, LOW_HEX);
 	else if (specifier == 'X')
-		str = ft_apply_base(va_arg(arg_ptr, unsigned int), 16, UP_HEX);
+		str = ft_apply_hex(va_arg(arg_ptr, unsigned int), 16, UP_HEX);
 	else if (specifier == '%')
 		str = ft_apply_character(specifier);
-	return (stred);
+	return (str);
 }
 
-}
+
 static ssize_t	*ft_witch_modifire(ssize_t *width, ssize_t *precision,
 		char *format)
 {
@@ -45,7 +45,7 @@ static ssize_t	*ft_witch_modifire(ssize_t *width, ssize_t *precision,
 	return (precision);
 }
 
-static char	*ft_check_mod_length(ssize_t *width, ssize_t *precision,
+static char	*ft_check_modifire_length(ssize_t *width, ssize_t *precision,
 		char *format)
 {
 	char	*temp;
@@ -96,7 +96,7 @@ char	*ft_check_params(t_parameters *params, char *format, va_list arg_ptr)
 {
 	ft_initialize_params(params);
 	format = ft_check_flags(params->flags, (char *)++format);
-	format = ft_check_mod_length(params->width, params->precision,
+	format = ft_check_modifire_length(params->width, params->precision,
 			(char *)format);
 	params->specifier = *format;
 	params->converted = ft_apply_specifier(params->specifier, arg_ptr);
