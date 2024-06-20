@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:02:51 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/13 13:20:07 by rohta            ###   ########.fr       */
+/*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
+/*   Updated: 2024/06/20 15:57:27 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	FT_PRINTF_H
+#ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
 # include "libft/libft.h"
@@ -19,29 +19,33 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifndef printf_ERROR
-#  define printf_ERROR 0
-# endif
+#ifndef PRINTFf_NULL
+# define PRINTF_NULL -1
+#endif
 
-# ifndef NOT_SPEC
-#  define NOT_SPEC 0
-# endif
+#ifndef STDOUT_FD
+# define STDOUT_FD 1
+#endif
 
-# ifndef FLAGS
-#  define FLAGS "-+ 0#"
-# endif
+#ifndef NOT_SPEC
+# define NOT_SPEC -1
+#endif
 
-# ifndef DESIMALS
-#  define DESIMALS "0123456789"
-# endif
+#ifndef FLAGS
+# define FLAGS "-+ 0#"
+#endif
 
-# ifndef LOW_HEX;
-#  define LOW_HEX "0123456789abcdef"
-# endif
+#ifndef DESIMALS
+# define DESIMALS "0123456789"
+#endif
 
-# ifndef UP_HEX;
-#  define UP_HEX "012345678ABCDEF"
-# endif
+#ifndef LOW_HEX
+# define LOW_HEX "0123456789abcdef"
+#endif
+
+#ifndef UP_HEX
+# define UP_HEX "0123456789ABCDEF"
+#endif
 
 typedef struct s_flags
 {
@@ -57,16 +61,20 @@ typedef struct s_parameters
 	t_flags	*flags;
 	ssize_t	*width;
 	ssize_t	*precision;
-	ssize_t	*base;
 	char		*converted;
 	char		specifier;
-} t_parameters;
+} t_params;
 
-
-char	*ft_check_params(t_parameters *params, char *format, va_list arg_ptr);
-void	ft_initialize_params(t_parameters *params);
-char	*ft_apply_base(long long arg, size_t base_len, char *base);
-char	*ft_apply_hex(unsigned long long arg, size_t base_len, const char *base);
-char	*ft_apply_character(char c);
+int	ft_printf(const char *format, ...);
+char	*ft_printf_check(t_params *params, char *format, va_list args);
+void	ft_init_params(t_params *params);
+char	*ft_apply_character(char arg);
+char	*ft_apply_string(char *arg);
+char	*ft_apply_pointer(size_t arg);
+char	*ft_apply_desimals(long long arg, size_t base_len, char *base);
+char	*ft_apply_hex(unsigned long long arg, size_t base_len, char *base);
+size_t	ft_write_number(t_params *params);
+size_t	ft_write_hex(t_params *params);
+size_t	ft_write_string(t_params *params);
 
 #endif

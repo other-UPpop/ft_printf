@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_check_initialize.c                       :+:      :+:    :+:   */
+/*   ft_params_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 00:39:34 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/12 01:19:42 by rohta            ###   ########.fr       */
+/*   Created: 2024/06/14 14:13:36 by rohta             #+#    #+#             */
+/*   Updated: 2024/06/14 14:34:16 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	ft_initialize_length(t_parameters *params)
+static void	ft_init_mods(ssize_t *width, ssize_t *precision)
 {
-	*(params->width) = NOT_SPEC;
-	*(params->precision) = NOT_SPEC;
-	*(params->base) = NOT_SPEC;
+	*width = NOT_SPEC;
+	*precision = NOT_SPEC;
 }
 
-static void	ft_initialize_flags(t_flags *flags)
+static void	ft_init_flags(t_flags *flags)
 {
 	flags->flag_minus = false;
 	flags->flag_plus = false;
@@ -28,12 +27,11 @@ static void	ft_initialize_flags(t_flags *flags)
 	flags->flag_hashtag = false;
 }
 
-void	ft_initialize_params(t_parameters *params)
+void	ft_init_params(t_params *params)
 {
-	params->flags = (t_flags *)calloc(1, sizeof(t_parameters));
-	params->width = (ssize_t *)calloc(1, sizeof(t_parameters));
-	params->precision = (ssize_t *)calloc(1, sizeof(t_parameters));
-	params->base = (ssize_t *)calloc(1, sizeof(t_parameters));
-	ft_initialize_flags(params->flags);
-	ft_initialize_length(params);
+	params->flags = ft_calloc(1, sizeof(t_flags));
+	params->width = ft_calloc(1, sizeof(ssize_t));
+	params->precision = ft_calloc(1, sizeof(ssize_t));
+	ft_init_flags(params->flags);
+	ft_init_mods(params->width, params->precision);
 }
