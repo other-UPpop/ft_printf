@@ -3,26 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   ft_apply_csp.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:56:15 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/17 14:02:39 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/24 16:38:38 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_apply_character(char arg)
+char	*ft_apply_character(int arg)
 {
 	char	*str;
 
+	str = NULL;
 	if (arg)
 	{
-		str = ft_calloc(2, sizeof(char));
-		*str = arg;
+		str = ft_calloc(1, sizeof(char));
+		if (str)
+			*str = (char)arg;
 	}
 	else
+	{
 		str = ft_calloc(1, sizeof(char));
+		*str = '\0';
+	}
 	return (str);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_check.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:08:58 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/17 14:41:01 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/24 16:28:59 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*ft_apply_args(char specifier, va_list args)
 	else if (specifier == 'X')
 		str = ft_apply_hex(va_arg(args, unsigned int), 16, UP_HEX);
 	else if (specifier == '%')
-		str = ft_apply_character(specifier);
+		str = "%";
 	return (str);
 }
 
@@ -52,19 +52,25 @@ static char	*ft_check_mods(char *format, ssize_t *width, ssize_t *precision)
 
 	tmp = NULL;
 	index = 0;
-	if (format[index] == '.')
+	if (ft_isdigit(format[index]) || format[index] == '.')
 	{
-		*precision = 0;
-		++format;
+		if (format[index] == '.')
+		{
+			*precision = 0;
+			++format;
+		}
+		while (ft_isdigit(format[index]))
+			++index;
+		tmp = ft_substr(format, 0, index);
+		mod = ft_set_mod(*(format - 1), width, precision);
+		*mod = ft_atoi(tmp);
+		if (mod == precision)
+		{
+			format += index;
+		}
+		else
+			format = ft_check_mods(format, width, precision);
 	}
-	while (ft_isdigit(format[index]))
-		++index;
-	tmp = ft_substr(format, 0, index);
-	mod = ft_set_mod(*(format - 1), width, precision);
-	*mod = ft_atoi(tmp);
-	if (mod == precision)
-		format += index;
-	format = ft_check_mods(format, width, precision);
 	free (tmp);
 	return (format);
 }
@@ -95,6 +101,7 @@ char	*ft_printf_check(t_params *params, char *format, va_list args)
 	format = ft_check_mods(format, params->width, params->precision);
 	params->specifier = *format;
 	params->converted = ft_apply_args(params->specifier, args);
+	++format;
 	return (format);
 }
 

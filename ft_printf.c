@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:52 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/20 16:58:49 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/24 09:35:00 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ static size_t	ft_printf_write(t_params *params)
 		byte += ft_write_number(params);
 	else if (ft_strchr("pxX", params->specifier))
 		byte += ft_write_hex(params);
-	if (byte == 0)
+	else if (byte == 0)
 		return (PRINTF_NULL);
 	return (byte);
 }
 
 int	ft_printf(const char *format, ...)
 {
-	va_list	args;
-	size_t	byte;
+	va_list		args;
+	size_t		byte;
 	t_params	*params;
 
 	byte = 0;
@@ -53,6 +53,8 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			params = calloc(1, sizeof(t_params));
+			if (!params)
+				return (PRINTF_NULL);
 			format = ft_printf_check(params, (char *)format, args);
 			byte += ft_printf_write(params);
 			ft_printf_free(params);
@@ -60,7 +62,7 @@ int	ft_printf(const char *format, ...)
 		else
 		{
 			byte += write(STDOUT_FD, format, sizeof(char));
-			++format;
+			format++;
 		}
 	}
 	va_end(args);

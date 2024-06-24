@@ -3,72 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   ft_write_string.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:03:40 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/20 15:50:49 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/24 16:42:43 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
 static
-size_t	ft_write_csp(t_params *params, size_t print_len, size_t put_prec)
+ssize_t	ft_write_str(t_params *params, ssize_t print_len, ssize_t put_width)
 {
-	size_t	byte;
+	ssize_t	byte;
 
 	byte = 0;
-	if (params->flags->flag_minus)
-	{
-		byte += write(STDOUT_FD, params->converted, print_len);
-		byte += write(STDOUT_FD, " ", put_prec);
-	}
-	else
-	{
-		byte += write(STDOUT_FD, " ", put_prec);
-		byte += write(STDOUT_FD, params->converted, print_len);
-	}
+	if (!params->flags->flag_minus && put_width)
+		byte += write(STDOUT_FD, " ", put_width);
+	byte += write(STDOUT_FD, params->converted, print_len);
+	if (params->flags->flag_minus && put_width)
+		byte += write(STDOUT_FD, " ", put_width);
 	return (byte);
 }
 
-static size_t	ft_width_size(t_params *params, size_t conv_size)
+static ssize_t	ft_check_cp(t_params *params, ssize_t conv_len)
 {
-	if (conv_size < *params->width)
-		return (*params->width - conv_size);
-	return (0);
-}
-
-static size_t	ft_check_cp(t_params *params, size_t print_len, size_t conv_size)
-{
-	if (ft_strchr("cp", params->specifier))
+	if (params->specifier == 's' && params->precision)
 	{
 		*params->precision = 0;
-		return (conv_size);
+		return (conv_len);
 	}
 	return (0);
 }
 
-size_t	ft_write_string(t_params *params)
+ssize_t	ft_write_string(t_params *params)
 {
-	size_t	conv_size;
-	size_t	put_prec;
-	size_t	put_width;
-	size_t	print_len;
-	size_t	byte;
+	ssize_t	conv_len;
+	ssize_t	put_width;
+	ssize_t	print_len;
+	ssize_t	byte;
+	char	c;
 
-	conv_size = ft_strlen(params->converted);
-	put_width = ft_width_size(params, conv_size);
-	print_len = ft_check_cp(params, print_len, conv_size);
+	if (!params)
+		return (PRINTF_NULL);
+	byte = 0;
+	put_width = 0;
+	conv_len = ft_strlen(params->converted);
+	print_len = ft_check_cp(params, conv_len);
 	if (params->specifier == '%')
-		byte = write(STDOUT_FD, "%", sizeof(char));
-	if (params->specifier == 's' && *params->precision < conv_size
-		&& params->precision)
+		return (write(STDOUT_FD, "%", sizeof(char)));
+	if (params->specifier == 'c')
 	{
-		put_prec = conv_size - *params->precision;
-		print_len = *params->precision;
-		if (*params->precision < *params->width)
-			put_width += put_prec;
+		c = (char)(*params->converted);
+		return (write(STDOUT_FD, &c, sizeof(char)));
 	}
-	byte = ft_write_csp(params, print_len, put_prec);
+	if (params->specifier == 's')
+	{
+		if (params->flags->flag_minus && *params->precision < conv_len
+				&& params->precision)
+			print_len = *params->precision;
+		else
+			print_len = conv_len;
+		if (print_len < *params->width)
+				put_width = *params->width - print_len;
+		byte = ft_write_str(params, print_len, put_width);
+	}
 	return (byte);
 }

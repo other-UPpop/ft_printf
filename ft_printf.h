@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/20 15:57:27 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/24 16:17:50 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 
 #ifndef PRINTFf_NULL
 # define PRINTF_NULL -1
@@ -28,7 +29,7 @@
 #endif
 
 #ifndef NOT_SPEC
-# define NOT_SPEC -1
+# define NOT_SPEC 0
 #endif
 
 #ifndef FLAGS
@@ -54,27 +55,27 @@ typedef struct s_flags
 	bool	flag_space;
 	bool	flag_zero;
 	bool	flag_hashtag;
-} t_flags;
+}	t_flags;
 
-typedef struct s_parameters
+typedef struct s_params
 {
 	t_flags	*flags;
 	ssize_t	*width;
 	ssize_t	*precision;
-	char		*converted;
-	char		specifier;
-} t_params;
+	char	*converted;
+	char	specifier;
+}	t_params;
 
-int	ft_printf(const char *format, ...);
+int		ft_printf(const char *format, ...);
 char	*ft_printf_check(t_params *params, char *format, va_list args);
 void	ft_init_params(t_params *params);
-char	*ft_apply_character(char arg);
+char	*ft_apply_character(int arg);
 char	*ft_apply_string(char *arg);
 char	*ft_apply_pointer(size_t arg);
 char	*ft_apply_desimals(long long arg, size_t base_len, char *base);
 char	*ft_apply_hex(unsigned long long arg, size_t base_len, char *base);
 size_t	ft_write_number(t_params *params);
 size_t	ft_write_hex(t_params *params);
-size_t	ft_write_string(t_params *params);
+ssize_t	ft_write_string(t_params *params);
 
 #endif

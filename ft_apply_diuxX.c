@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_apply_diuxX.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:03:32 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/17 14:33:00 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/24 13:14:40 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static size_t ft_arg_hex_len(unsigned long long arg, size_t base_len)
 {
 	size_t	arg_len;
 
+	arg_len = 0;
 	if (arg == 0)
 	{
 		++arg_len;
@@ -83,21 +84,21 @@ char	*ft_apply_desimals(long long arg, size_t base_len, char *base)
 	str = calloc(len + 1, sizeof(char));
 	if (!str)
 		return (NULL);
-	if (arg == 0)
-	{
-		str[0] = '0';
-		return (str);
-	}
 	if (arg < 0)
 	{
 		str[0] = '-';
 		arg = -arg;
 	}
-	if (len)
+	str[len] = '\0';
+	if (arg == '0')
+		str[--len] = '0';
+	else
 	{
-		str[len] = base[arg % base_len];
-		arg /= base_len;
-		--len;
+		while (arg)
+		{
+			str[--len] = base[arg % base_len];
+			arg /= base_len;
+		}
 	}
 	return (str);
 }
