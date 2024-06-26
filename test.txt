@@ -1,7 +1,0 @@
-Custom printf  : 42
-Custom printf  : 42
-Custom printf  : A
-Custom printf  : Hello, World!Standard printf: 42
-Standard printf: 42
-Standard printf: A
-Standard printf: Hello, World!

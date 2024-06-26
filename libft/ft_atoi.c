@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 04:36:47 by rohta             #+#    #+#             */
-/*   Updated: 2024/05/25 19:41:49 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/25 15:09:08 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	ft_atoi(const char *str)
 
 	sign = 1;
 	num = 0;
+	if (!str)
+		return (0);
 	while ((*str >= '\t' && *str <= '\r') || *str == ' ')
 		str++;
 	sign *= ft_issign(&str);

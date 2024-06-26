@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:08:58 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/24 16:28:59 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/26 13:00:46 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,52 +32,50 @@ static char	*ft_apply_args(char specifier, va_list args)
 	else if (specifier == 'X')
 		str = ft_apply_hex(va_arg(args, unsigned int), 16, UP_HEX);
 	else if (specifier == '%')
-		str = "%";
+		str = ft_apply_character(specifier);
 	return (str);
 }
 
 
-static ssize_t	*ft_set_mod(char format, ssize_t *width, ssize_t *precision)
-{
-	if (format != '.')
-		return (width);
-	return (precision);
-}
+//static ssize_t	*ft_set_mod(char format, ssize_t *width, ssize_t *precision)
+//{
+//	if (format != '.')
+//		return (width);
+//	return (precision);
+//}
 
 static char	*ft_check_mods(char *format, ssize_t *width, ssize_t *precision)
 {
 	char	*tmp;
 	size_t	index;
+	size_t	start;
 	ssize_t	*mod;
 
-	tmp = NULL;
 	index = 0;
-	if (ft_isdigit(format[index]) || format[index] == '.')
+	mod = width;
+	tmp = NULL;
+	while (ft_isdigit(format[index]) || format[index] == '.')
 	{
 		if (format[index] == '.')
 		{
 			*precision = 0;
-			++format;
+			mod = precision;
+			++index;
 		}
+		start = index;
 		while (ft_isdigit(format[index]))
 			++index;
-		tmp = ft_substr(format, 0, index);
-		mod = ft_set_mod(*(format - 1), width, precision);
+		tmp = ft_substr(format, start, index - start);
 		*mod = ft_atoi(tmp);
-		if (mod == precision)
-		{
-			format += index;
-		}
-		else
-			format = ft_check_mods(format, width, precision);
+		free (tmp);
+		tmp = NULL;
 	}
-	free (tmp);
-	return (format);
+	return (format + index);
 }
 
 static char	*ft_check_flags(char *format, t_flags *flags)
 {
-	if (ft_strchr(FLAGS, *format))
+	while (ft_strchr(FLAGS, *format))
 	{
 		if (*format == '-')
 			flags->flag_minus = true;
