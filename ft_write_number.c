@@ -6,25 +6,14 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 13:28:41 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/26 20:05:37 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	my_putstr_fd(char *s, int fd)
-{
-	size_t	byte;
-
-	byte = 0;
-	if (!s)
-		return (0);
-	write(fd, s, ft_strlen(s));
-	return (byte);
-}
-
-static
-size_t	ft_write_flags(t_params *params, size_t *print_len)
+size_t	ft_write_flags(t_params *params, size_t *print_len, 
+		size_t *conv_len)
 {
 	size_t	byte;
 	int		sign;
@@ -39,6 +28,14 @@ size_t	ft_write_flags(t_params *params, size_t *print_len)
 		else
 			byte += write(STDOUT_FD, " ", sizeof(char));
 		--(*print_len);
+	}
+	if (params->flags->flag_zero && sign < 0)
+	{
+		byte += write(STDOUT_FD, "-", sizeof(char));
+		--(*print_len);
+		--(*conv_len);
+		sign = -sign;
+		params->converted = ft_itoa(sign);
 	}
 	return (byte);
 }
@@ -58,7 +55,7 @@ static size_t	ft_write_int(t_params *params, size_t put_prec, size_t print_len)
 		c = '0';
 	if (params->flags->flag_minus)
 	{
-		byte += ft_write_flags(params, &print_len);
+		byte += ft_write_flags(params, &print_len, &conv_len);
 		while (i++ < put_prec)
 		{
 			byte += write(STDOUT_FD, "0", sizeof(char));
@@ -70,9 +67,12 @@ static size_t	ft_write_int(t_params *params, size_t put_prec, size_t print_len)
 	}
 	else
 	{
-		byte += ft_write_flags(params, &print_len);
+		if (params->flags->flag_zero)
+			byte += ft_write_flags(params, &print_len, &conv_len);
 		while (put_prec + conv_len < print_len--)
 			byte += write(STDOUT_FD, &c, sizeof(char));
+		if (!params->flags->flag_zero)
+			byte += ft_write_flags(params, &print_len, &conv_len);
 		while (i++ < put_prec)
 				byte += write(STDOUT_FD, "0", sizeof(char));
 		byte += write(STDOUT_FD, params->converted, conv_len);
@@ -82,7 +82,7 @@ static size_t	ft_write_int(t_params *params, size_t put_prec, size_t print_len)
 
 static void	ft_check_flag(t_params *params)
 {
-	if (params->flags->flag_minus || params->precision == 0)
+	if (params->flags->flag_minus || *params->precision != NOT_SPEC)
 		params->flags->flag_zero = false;
 	if (params->flags->flag_plus)
 		params->flags->flag_space = false;

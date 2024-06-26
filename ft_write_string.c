@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:03:40 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 18:16:50 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/26 19:27:16 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,37 @@ static
 ssize_t	ft_write_str(t_params *params, ssize_t print_len, ssize_t put_width)
 {
 	ssize_t	byte;
-
+	ssize_t	i;
+	char	c;
+	
 	byte = 0;
+	i = 0;
+	c = ' ';
+	if (params->flags->flag_zero)
+		c = '0';
 	if (!(params->flags->flag_minus) && put_width > 0)
-		byte += write(STDOUT_FD, " ", put_width);
+	{
+		while (i++ < put_width)
+			byte += write(STDOUT_FD, &c, sizeof(char));
+	}
 	byte += write(STDOUT_FD, params->converted, print_len);
 	if (params->flags->flag_minus && put_width > 0)
-		byte += write(STDOUT_FD, " ", put_width);
+	{
+		while (i++ < put_width)
+			byte += write(STDOUT_FD, " ", sizeof(char));
+	}
 	return (byte);
 }
 
 static ssize_t	ft_print_len(t_params *params, ssize_t conv_len)
 {
-		if (0 <= *params->precision && *params->precision < conv_len
-				&& params->precision)
+		if (0 <= *params->precision && *params->precision <= conv_len
+				&& *params->precision != NOT_SPEC)
 			return (*params->precision);
-		if (params->precision)
-			*params->precision = 0;
-		return (conv_len);
+		if ((conv_len < *params->precision && *params->precision)
+				|| *params->precision == NOT_SPEC)
+			return (conv_len);
+		return (0);
 }
 
 ssize_t	ft_write_string(t_params *params)

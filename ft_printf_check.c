@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:08:58 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 13:00:46 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/26 18:42:26 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,6 @@ static char	*ft_apply_args(char specifier, va_list args)
 	return (str);
 }
 
-
-//static ssize_t	*ft_set_mod(char format, ssize_t *width, ssize_t *precision)
-//{
-//	if (format != '.')
-//		return (width);
-//	return (precision);
-//}
 
 static char	*ft_check_mods(char *format, ssize_t *width, ssize_t *precision)
 {

@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:56:15 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 12:01:59 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/26 18:37:57 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ char	*ft_apply_string(char *arg)
 
 	if (!arg)
 		return (ft_strdup("(NULL)"));
-	str = ft_strdup(arg);
+	else
+		str = ft_strdup(arg);
+	if (!str)
+		return (NULL);
 	return (str);
 }
 

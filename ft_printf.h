@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/24 16:17:50 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/26 18:53:20 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 #endif
 
 #ifndef NOT_SPEC
-# define NOT_SPEC 0
+# define NOT_SPEC -1
 #endif
 
 #ifndef FLAGS
