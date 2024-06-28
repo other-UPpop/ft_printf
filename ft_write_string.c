@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:03:40 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 19:27:16 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 23:09:29 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ ssize_t	ft_write_str(t_params *params, ssize_t print_len, ssize_t put_width)
 	ssize_t	byte;
 	ssize_t	i;
 	char	c;
-	
+	char	s;
+
 	byte = 0;
 	i = 0;
 	c = ' ';
@@ -29,7 +30,14 @@ ssize_t	ft_write_str(t_params *params, ssize_t print_len, ssize_t put_width)
 		while (i++ < put_width)
 			byte += write(STDOUT_FD, &c, sizeof(char));
 	}
-	byte += write(STDOUT_FD, params->converted, print_len);
+	if (params->specifier == 'c' && !(ft_isprint(*params->converted)))
+	{
+		s = (char)(*params->converted);
+		byte += write(STDOUT_FD, &s, sizeof(char));
+		--put_width;
+	}
+	else
+		byte += write(STDOUT_FD, params->converted, print_len);
 	if (params->flags->flag_minus && put_width > 0)
 	{
 		while (i++ < put_width)
@@ -67,12 +75,7 @@ ssize_t	ft_write_string(t_params *params)
 		c = (char)(params->specifier);
 		return (write(STDOUT_FD, &c, sizeof(char)));
 	}
-	if (params->specifier == 'c')
-	{
-		c = (char)(*params->converted);
-		return (write(STDOUT_FD, &c, sizeof(char)));
-	}
-	if (params->specifier == 's')
+		if (ft_strchr("sc", params->specifier))
 	{
 		print_len = ft_print_len(params, conv_len);
 		if (print_len < *params->width && params->width)

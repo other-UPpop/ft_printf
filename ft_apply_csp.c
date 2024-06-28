@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:56:15 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/28 12:18:00 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 20:28:56 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@ char	*ft_apply_character(int arg)
 
 	str = NULL;
 	str = ft_calloc(1, sizeof(char));
-//	if (!ft_isascii(arg))
-//	{
-//		*str = ' '; 
-//		return (str);
-//	}
 	if (str)
 	{
 		if (arg)
@@ -38,7 +33,7 @@ char	*ft_apply_string(char *arg)
 	char	*str;
 
 	if (!arg)
-		return (ft_strdup("(NULL)"));
+		return (ft_strdup("(null)"));
 	else
 		str = ft_strdup(arg);
 	if (!str)

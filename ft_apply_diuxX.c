@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 14:03:32 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/25 12:38:48 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 21:43:19 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,11 @@ char	*ft_apply_desimals(long long arg, size_t base_len, char *base)
 		str[0] = '-';
 		arg = -arg;
 	}
-	str[len] = '\0';
-	if (arg == '0')
+	if (arg == 0)
 		str[--len] = '0';
 	else
 	{
+		str[len] = '\0';
 		while (arg)
 		{
 			str[--len] = base[arg % base_len];
@@ -103,5 +103,4 @@ char	*ft_apply_desimals(long long arg, size_t base_len, char *base)
 		}
 	}
 	return (str);
-	free(str);
 }

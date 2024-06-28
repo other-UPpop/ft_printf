@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:52 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/28 12:36:14 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 22:05:19 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_printf_free(t_params *params)
 	free(params);
 }
 
-static size_t	ft_printf_write(t_params *params)
+static size_t	ft_printf_write(t_params *params, va_list *args)
 {
 	size_t	byte;
 
@@ -34,6 +34,8 @@ static size_t	ft_printf_write(t_params *params)
 		byte += ft_write_hex(params);
 	else if (byte == 0)
 		return (PRINTF_NULL);
+	if(params->specifier != '%')
+		va_arg(*args, int);
 	return (byte);
 }
 
@@ -56,9 +58,8 @@ int	ft_printf(const char *format, ...)
 			if (!params)
 				return (PRINTF_NULL);
 			format = ft_printf_check(params, (char *)format, args);
-			byte += ft_printf_write(params);
+			byte += ft_printf_write(params, &args);
 			ft_printf_free(params);
-			va_arg(args, int);
 		}
 		else
 		{

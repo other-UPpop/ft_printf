@@ -1,0 +1,3 @@
+ft_printf : 001
+ printf : 001
+ 
