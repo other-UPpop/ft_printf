@@ -6,13 +6,13 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 20:05:37 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 10:22:24 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t	ft_write_flags(t_params *params, size_t *print_len, 
+static size_t	ft_write_flags(t_params *params, size_t *print_len, 
 		size_t *conv_len)
 {
 	size_t	byte;

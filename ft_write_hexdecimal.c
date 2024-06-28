@@ -6,26 +6,24 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:01:37 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/25 11:40:55y rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:22:51 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static
-size_t	ft_write_flags(t_params *params, size_t *print_len, size_t *put_prec)
+static size_t	ft_write_flags(t_params *params, size_t *print_len)
 {
 	size_t	byte;
 
 	byte = 0;
 	if (params->flags->flag_hashtag && ft_strchr("xX", params->specifier))
 	{
+		*print_len -= 2;
 		if (params->specifier == 'x')
 			byte += write(STDOUT_FD, "0x", 2);
 		else
 			byte += write(STDOUT_FD, "0X", 2);
-		*print_len -= 2;
-		*put_prec -= 2;
 	}
 	return (byte);
 }
@@ -45,7 +43,7 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 		c = '0';
 	if (params->flags->flag_minus)
 	{
-		byte += ft_write_flags(params, &print_len, &put_prec);
+		byte += ft_write_flags(params, &print_len);
 		while (i++ < put_prec)
 		{
 			byte += write(STDOUT_FD, "0", 1);
@@ -58,10 +56,10 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 	else
 	{
 		while (put_prec + conv_len < print_len--)
-			byte += write(STDOUT_FD, &c, 1);
+			byte += write(STDOUT_FD, &c, sizeof(char));
 		while (i++ < put_prec)
 			byte += write(STDOUT_FD, "0", 1);
-		byte += ft_write_flags(params, &print_len, &put_prec);
+		byte += ft_write_flags(params, &print_len);
 		byte += write(STDOUT_FD, params->converted, conv_len);
 	}
 	return (byte);
@@ -69,7 +67,7 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 
 static void	ft_check_flag(t_params *params)
 {
-	if (params->flags->flag_minus || params->precision)
+	if (params->flags->flag_minus || *params->precision != NOT_SPEC)
 			params->flags->flag_zero = false;
 	params->flags->flag_space = false;
 	params->flags->flag_plus = false;
@@ -93,7 +91,7 @@ size_t	ft_write_hex(t_params *params)
 	byte = 0;
 	conv_len = ft_strlen(params->converted);
 	ft_check_flag(params);
-	if (params->width < params->precision && conv_len < *params->precision)
+	if (*params->width < *params->precision && conv_len < *params->precision)
 	{
 		print_len = *params->precision;
 		put_prec = *params->precision - conv_len;
@@ -105,7 +103,8 @@ size_t	ft_write_hex(t_params *params)
 			print_len = *params->width;
 		else
 			print_len = *params->precision;
-		put_prec = *params->precision - conv_len;
+		if (conv_len < *params->precision)
+			put_prec = *params->precision - conv_len;
 	}
 	else if (*params->width < conv_len && *params->precision < conv_len)
 	{
