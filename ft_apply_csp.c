@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:56:15 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 18:37:57 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 12:18:00 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@ char	*ft_apply_character(int arg)
 
 	str = NULL;
 	str = ft_calloc(1, sizeof(char));
+//	if (!ft_isascii(arg))
+//	{
+//		*str = ' '; 
+//		return (str);
+//	}
 	if (str)
 	{
 		if (arg)
@@ -44,14 +49,11 @@ char	*ft_apply_string(char *arg)
 char	*ft_apply_pointer(size_t arg)
 {
 	char	*str;
-	char	*tmp;
 
 	if (!arg)
-		return (ft_strdup("0x0"));
-	tmp = ft_apply_hex(arg, 16, LOW_HEX);
-	if (!tmp)
+		return (ft_strdup("0"));
+	str = ft_apply_hex(arg, 16, LOW_HEX);
+	if (!str)
 		return (NULL);
-	str = ft_strjoin("0x", tmp);
-	free(tmp);
 	return (str);
 }

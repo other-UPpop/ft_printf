@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:01:37 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/28 11:22:51 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/28 11:43:18 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len)
 	size_t	byte;
 
 	byte = 0;
-	if (params->flags->flag_hashtag && ft_strchr("xX", params->specifier))
+	if (params->flags->flag_hashtag || ft_strchr("p", params->specifier))
 	{
 		*print_len -= 2;
-		if (params->specifier == 'x')
+		if (ft_strchr("xp", params->specifier))
 			byte += write(STDOUT_FD, "0x", 2);
 		else
 			byte += write(STDOUT_FD, "0X", 2);
@@ -55,11 +55,14 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 	}
 	else
 	{
+		if (params->specifier == 'p' && params->flags->flag_zero)
+			byte += ft_write_flags(params, &print_len);
 		while (put_prec + conv_len < print_len--)
 			byte += write(STDOUT_FD, &c, sizeof(char));
 		while (i++ < put_prec)
 			byte += write(STDOUT_FD, "0", 1);
-		byte += ft_write_flags(params, &print_len);
+		if (!(params->specifier == 'p' && params->flags->flag_zero))
+			byte += ft_write_flags(params, &print_len);
 		byte += write(STDOUT_FD, params->converted, conv_len);
 	}
 	return (byte);
@@ -74,8 +77,7 @@ static void	ft_check_flag(t_params *params)
 	if (params->specifier == 'p')
 	{
 		params->flags->flag_hashtag = false;
-		params->flags->flag_zero = false;
-		*params->precision = 0;
+		*params->precision = NOT_SPEC;
 	}
 }
 
