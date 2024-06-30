@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/29 13:04:50 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/30 19:25:38 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_params
 	ssize_t	*precision;
 	char	*converted;
 	char	specifier;
+	bool	dot;
 }	t_params;
 
 int		ft_printf(const char *format, ...);

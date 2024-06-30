@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:08:58 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/28 21:52:04 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/30 19:29:34 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*ft_apply_args(char specifier, va_list args)
 }
 
 
-static char	*ft_check_mods(char *format, ssize_t *width, ssize_t *precision)
+static char	*ft_check_mods(char *format, t_params *params)
 {
 	char	*tmp;
 	size_t	index;
@@ -45,14 +45,15 @@ static char	*ft_check_mods(char *format, ssize_t *width, ssize_t *precision)
 	ssize_t	*mod;
 
 	index = 0;
-	mod = width;
+	mod = params->width;
 	tmp = NULL;
 	while (ft_isdigit(format[index]) || format[index] == '.')
 	{
 		if (format[index] == '.')
 		{
-			*precision = 0;
-			mod = precision;
+			params->dot = true;
+			*params->precision = 0;
+			mod = params->precision;
 			++index;
 		}
 		start = index;
@@ -89,7 +90,7 @@ char	*ft_printf_check(t_params *params, char *format, va_list args)
 {
 	ft_init_params(params);
 	format = ft_check_flags(++format, params->flags);
-	format = ft_check_mods(format, params->width, params->precision);
+	format = ft_check_mods(format, params);
 	params->specifier = *format;
 	params->converted = ft_apply_args(params->specifier, args);
 	++format;
