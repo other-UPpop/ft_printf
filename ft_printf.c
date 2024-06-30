@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:52 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/28 22:05:19 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/29 13:03:17 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ static size_t	ft_printf_write(t_params *params, va_list *args)
 	byte = 0;
 	if (ft_strchr("cs%", params->specifier))
 		byte += ft_write_string(params);
-	else if (ft_strchr("diu", params->specifier))
+	else if (ft_strchr("di", params->specifier))
 		byte += ft_write_number(params);
-	else if (ft_strchr("pxX", params->specifier))
+	else if (ft_strchr("xX", params->specifier))
 		byte += ft_write_hex(params);
+	else if (params->specifier == 'u')
+		byte += ft_write_unsigned(params);
+	else if (params->specifier == 'p')
+		byte += ft_write_pointer(params);
 	else if (byte == 0)
 		return (PRINTF_NULL);
 	if(params->specifier != '%')

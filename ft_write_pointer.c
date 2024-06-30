@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_write_hexdecimal.c                              :+:      :+:    :+:   */
+/*   ft_write_pointer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
+/*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 15:01:37 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/30 18:01:36 by rohta            ###   ########.fr       */
+/*   Created: 2024/06/29 13:01:18 by rohta             #+#    #+#             */
+/*   Updated: 2024/06/29 13:05:43 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,14 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len)
 	byte = 0;
 	if (params->flags->flag_hashtag || ft_strchr("p", params->specifier))
 	{
-		if (*params->converted != '0')
-		{
+		if (*params->converted != '0' && params->specifier == 'p')
 			*print_len -= 2;
-			if (ft_strchr("xp", params->specifier))
-				byte += write(STDOUT_FD, "0x", 2);
-			else
-				byte += write(STDOUT_FD, "0X", 2);
-		}
 		else if (ft_strlen(params->converted) < *print_len)
 			--(*print_len);
+		if (ft_strchr("xp", params->specifier))
+			byte += write(STDOUT_FD, "0x", 2);
+		else
+			byte += write(STDOUT_FD, "0X", 2);
 	}
 	return (byte);
 }
@@ -60,22 +58,19 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 	}
 	else
 	{
-		if (params->flags->flag_zero && params->flags->flag_hashtag)
-				byte +=ft_write_flags(params, &print_len);
-		else if (put_prec != 0 && params->flags->flag_hashtag)
-			print_len -= 2;	
+		if (params->specifier == 'p' && params->flags->flag_zero)
+			byte += ft_write_flags(params, &print_len);
 		while (put_prec + conv_len < print_len--)
 			byte += write(STDOUT_FD, &c, sizeof(char));
-		if (put_prec != 0 && params->flags->flag_hashtag)
-			byte += ft_write_flags(params, &print_len);
 		while (i++ < put_prec)
 			byte += write(STDOUT_FD, "0", 1);
-		if (!(params->flags->flag_zero) && put_prec == 0 )
+		if (!(params->specifier == 'p' && params->flags->flag_zero))
 			byte += ft_write_flags(params, &print_len);
 		byte += write(STDOUT_FD, params->converted, conv_len);
 	}
 	return (byte);
 }
+
 static void	ft_check_flag(t_params *params)
 {
 	if (params->flags->flag_minus || *params->precision != NOT_SPEC)
@@ -89,7 +84,7 @@ static void	ft_check_flag(t_params *params)
 	}
 }
 
-size_t	ft_write_hex(t_params *params)
+size_t	ft_write_pointer(t_params *params)
 {
 	ssize_t	conv_len;
 	size_t	print_len;

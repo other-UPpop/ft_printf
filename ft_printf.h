@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/26 18:53:20 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/29 13:04:50 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ char	*ft_apply_pointer(size_t arg);
 char	*ft_apply_desimals(long long arg, size_t base_len, char *base);
 char	*ft_apply_hex(unsigned long long arg, size_t base_len, char *base);
 size_t	ft_write_number(t_params *params);
+size_t	ft_write_unsigned(t_params *params);
 size_t	ft_write_hex(t_params *params);
 ssize_t	ft_write_string(t_params *params);
+size_t	ft_write_pointer(t_params *params);
 
 #endif
