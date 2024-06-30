@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:01:37 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/30 18:01:36 by rohta            ###   ########.fr       */
+/*   Updated: 2024/06/30 19:18:44 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len)
 	return (byte);
 }
 
-static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
+static size_t	ft_write_xp(t_params *params, ssize_t put_prec, size_t print_len)
 {
 	size_t	conv_len;
 	size_t	byte;
@@ -44,12 +44,14 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 	byte = 0;
 	c = ' ';
 	conv_len = ft_strlen(params->converted);
+	if (*params->precision == 0 || *params->precision == NOT_SPEC)
+		conv_len = 0;
 	if (params->flags->flag_zero)
 		c = '0';
 	if (params->flags->flag_minus)
 	{
 		byte += ft_write_flags(params, &print_len);
-		while (i++ < put_prec)
+		while ((ssize_t)i++ < put_prec)
 		{
 			byte += write(STDOUT_FD, "0", 1);
 			--print_len;
@@ -68,7 +70,7 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 			byte += write(STDOUT_FD, &c, sizeof(char));
 		if (put_prec != 0 && params->flags->flag_hashtag)
 			byte += ft_write_flags(params, &print_len);
-		while (i++ < put_prec)
+		while ((ssize_t)i++ < put_prec)
 			byte += write(STDOUT_FD, "0", 1);
 		if (!(params->flags->flag_zero) && put_prec == 0 )
 			byte += ft_write_flags(params, &print_len);
