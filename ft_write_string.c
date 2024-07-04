@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:03:40 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/28 23:09:29 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/04 21:45:09 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,22 @@ ssize_t	ft_write_string(t_params *params)
 	ssize_t	put_width;
 	ssize_t	print_len;
 	ssize_t	byte;
-	char	c;
+//	char	c;
 
 	if (!params)
 		return (PRINTF_NULL);
 	byte = 0;
 	put_width = 0;
 	conv_len = ft_strlen(params->converted);
-	if (params->specifier == '%')
+//	if (params->specifier == '%')
+//	{
+//		c = (char)(params->specifier);
+//		return (write(STDOUT_FD, &c, sizeof(char)));
+//	}
+		if (ft_strchr("sc%", params->specifier))
 	{
-		c = (char)(params->specifier);
-		return (write(STDOUT_FD, &c, sizeof(char)));
-	}
-		if (ft_strchr("sc", params->specifier))
-	{
+		if (params->specifier == 'c')
+			*params->precision = NOT_SPEC;
 		print_len = ft_print_len(params, conv_len);
 		if (print_len < *params->width && params->width)
 			put_width = *params->width - print_len;

@@ -36,6 +36,12 @@ int main() {
     printf("11. printf  [%%010.5d]: [%010.5d]\n", -216);
     ft_printf("11. ft_printf [%%010.5d]: [%010.5d]\n", -216);
 
+    printf("100. printf  [%%3.7d]: [%3.7d]\n", -2375);
+    ft_printf("100. ft_printf  [%%3.7d]: [%3.7d]\n", -2375);
+
+    printf("101. printf  [%%-3.7d]: [%-3.7d]\n", -2375);
+    ft_printf("101. ft_printf  [%%-3.7d]: [%-3.7d]\n", -2375);
+
     printf("12. printf  [%%.0x]: [%.0x]\n", 0);
     ft_printf("12. ft_printf [%%.0x]: [%.0x]\n", 0);
 
@@ -71,6 +77,15 @@ int main() {
 
     printf("23. printf  [%%-5.X]: [%-5.X]\n", 0);
     ft_printf("23. ft_printf [%%-5.X]: [%-5.X]\n", 0);
+
+    printf("200. printf  [%%5%%.]: [%5%]\n");
+    ft_printf("200. ft_printf  [%%5%%]: [%5%]\n");
+
+    printf("201. printf  [%%-5%%.]: [%-5%]\n");
+    ft_printf("201. ft_printf  [%%-5%%]: [%-5%]\n");
+
+    printf("202. printf  [%%.c]: [%.c]\n", 'a');
+    ft_printf("202. ft_printf  [%%.c]: [%.c]\n", 'a');
 
     return 0;
 }

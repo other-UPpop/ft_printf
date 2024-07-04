@@ -110,6 +110,9 @@ void run_tests() {
 
     printf("Test 31 (printf) : [%+010d]\n", neg_num);  // Expected: [-000012345]
     ft_printf("Test 31 (ft_printf): [%+010d]\n", neg_num);
+
+    printf("Test 32 (printf) : [%.6i]\n", -3);  // Expected: [-000012345]
+    ft_printf("Test 32 (ft_printf) : [%.6i]\n", -3);  // Expected: [-000012345]
 }
 
 int main() {

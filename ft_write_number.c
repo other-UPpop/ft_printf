@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/29 11:55:34 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/04 21:18:34 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,10 @@ static size_t	ft_write_int(t_params *params, size_t put_prec, size_t print_len)
 	conv_len = ft_strlen(params->converted);
 	if (*params->precision == 0 && ft_atoi(params->converted) == 0)
 			conv_len = 0;
+	else if (ft_atoi(params->converted) < 0 
+			&& ((ssize_t)(conv_len - 1) < *params->precision)
+			&& *params->width > *params->precision)
+		++put_prec;
 	if (params->flags->flag_zero && *params->precision == NOT_SPEC)
 		c = '0';
 	if (params->flags->flag_minus)
@@ -112,6 +116,7 @@ size_t	ft_write_number(t_params *params)
 		{
 			if (!params->flags->flag_minus)
 				++print_len;
+//			put_prec += (*params->precision - ((ssize_t)conv_len - 1));
 			++put_prec;
 		}
 	}
