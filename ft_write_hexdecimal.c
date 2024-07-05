@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:01:37 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/30 19:42:59 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/05 09:12:42 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,12 @@ static size_t	ft_write_xp(t_params *params, ssize_t put_prec, size_t print_len)
 	c = ' ';
 	conv_len = ft_strlen(params->converted);
 	if ((*params->precision == 0 || *params->precision == NOT_SPEC) && params->dot)
+//	if (*params->precision == NOT_SPEC && params->dot)
 	{
 		if (*params->width == NOT_SPEC || *params->width == 0)
 			print_len = 0;
-		conv_len = 0;
+		if (*params->converted == '0')
+			conv_len = 0;
 	}
 	if (params->flags->flag_zero)
 		c = '0';

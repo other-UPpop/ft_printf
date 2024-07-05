@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42.jp>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 13:01:18 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/04 22:23:55 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/05 09:27:58 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len)
 	byte = 0;
 	if (params->flags->flag_hashtag || ft_strchr("p", params->specifier))
 	{
-		if (*params->converted != '0' && params->specifier == 'p'
+		if (ft_strlen(params->converted) < *print_len && params->specifier == 'p'
 				&& params->flags->flag_minus)
 			*print_len -= 2;
-		else if (ft_strlen(params->converted) < *print_len)
-			--(*print_len);
+//		else if (ft_strlen(params->converted) < *print_len)
+//			--(*print_len);
 		if (ft_strchr("xp", params->specifier))
 			byte += write(STDOUT_FD, "0x", 2);
 		else
@@ -61,8 +61,8 @@ static size_t	ft_write_xp(t_params *params, size_t put_prec, size_t print_len)
 	{
 		if (params->specifier == 'p' && params->flags->flag_zero)
 			byte += ft_write_flags(params, &print_len);
-		if (params->width && *params->converted != '0' && !params->flags->flag_zero
-				&& print_len >= 2)
+		if (*params->width != NOT_SPEC && *params->width > (ssize_t)conv_len 
+				&& !params->flags->flag_zero && print_len >= 2)
 			print_len -= 2;
 		while (put_prec + conv_len < print_len--)
 			byte += write(STDOUT_FD, &c, sizeof(char));

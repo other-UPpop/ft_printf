@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:03:40 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/04 21:45:09 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/05 08:51:58 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ ssize_t	ft_write_str(t_params *params, ssize_t print_len, ssize_t put_width)
 	c = ' ';
 	if (params->flags->flag_zero)
 		c = '0';
+	if (!ft_isprint(*params->converted) && params->specifier == 'c'
+			&& *params->converted == 0)
+			--put_width;
 	if (!(params->flags->flag_minus) && put_width > 0)
 	{
 		while (i++ < put_width)
@@ -34,7 +37,8 @@ ssize_t	ft_write_str(t_params *params, ssize_t print_len, ssize_t put_width)
 	{
 		s = (char)(*params->converted);
 		byte += write(STDOUT_FD, &s, sizeof(char));
-		--put_width;
+//		if (params->flags->flag_minus)
+//			--put_width;
 	}
 	else
 		byte += write(STDOUT_FD, params->converted, print_len);
@@ -80,8 +84,11 @@ ssize_t	ft_write_string(t_params *params)
 		if (params->specifier == 'c')
 			*params->precision = NOT_SPEC;
 		print_len = ft_print_len(params, conv_len);
-		if (print_len < *params->width && params->width)
+		if (print_len < *params->width && *params->width != NOT_SPEC
+				&&	*params->width > print_len)
 			put_width = *params->width - print_len;
+//		else if (params->specifier == 'c')
+//			put_width = *params->width;
 		else
 			put_width = 0;
 		byte = ft_write_str(params, print_len, put_width);

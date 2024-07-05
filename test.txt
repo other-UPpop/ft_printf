@@ -1,22 +1,60 @@
-Test 1 (ft_printf): [0x12345678]
-Test 2 (ft_printf): [0x0]
-Test 3 (ft_printf): [0x16b3db218]
-Test 4 (ft_printf): [          0x12345678]
-Test 5 (ft_printf): [0x12345678          ]
-Test 6 (ft_printf): [0x00000000012345678]
-Test 7 (ft_printf): [0x12345678]
-Test 8 (ft_printf): [0x12345678]
-Test 9 (ft_printf): [0x12345678]
-Test 10 (ft_printf): [0x00000000012345678]
-Test 11 (ft_printf): [0x12345678          ]
-Test 1 (printf)  : [0x12345678]
-Test 2 (printf)  : [0x0]
-Test 3 (printf)  : [0x16b3db218]
-Test 4 (printf)  : [          0x12345678]
-Test 5 (printf)  : [0x12345678          ]
-Test 6 (printf)  : [0x000000000012345678]
-Test 7 (printf)  : [0x12345678]
-Test 8 (printf)  : [0x12345678]
-Test 9 (printf)  : [0x12345678]
-Test 10 (printf) : [0x000000000012345678]
-Test 11 (printf) : [0x12345678          ]
+ft_printf: p22 64
+ft_printf: 0x0            
+ft_printf: 0x0            
+ft_printf:             1234abcd
+ft_printf:             edcb5433
+ft_printf:             1234ABCD
+ft_printf:             EDCB5433
+ft_printf: 00000000000003421138903                                                                                                                                            1EB15ABA                                                            
+ft_printf: 31199BA3                                                                                                                                                                                     -00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000369802385                               -000000000000000000000000000000000000000000000000000444387222
+ft_printf: ee
+ft_printf: EE
+ft_printf: ee
+ft_printf: EE
+ft_printf:    ee
+ft_printf:    EE
+Test case 1:
+printf   : p22 64
+
+Test case 2:
+printf   : 0x0            
+
+Test case 3:
+printf   : 0x0            
+
+Test case 4:
+printf   :             1234abcd
+
+Test case 5:
+printf   :             edcb5433
+
+Test case 6:
+printf   :             1234ABCD
+
+Test case 7:
+printf   :             EDCB5433
+
+Test case 8:
+printf   : 00000000000003421138903                                                                                                                                            1EB15ABA                                                            
+
+Test case 9:
+printf   : 31199BA3                                                                                                                                                                                     -00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000369802385                               -000000000000000000000000000000000000000000000000000444387222
+
+Test case 10:
+printf   : ee
+
+Test case 11:
+printf   : EE
+
+Test case 12:
+printf   : ee
+
+Test case 13:
+printf   : EE
+
+Test case 14:
+printf   :    ee
+
+Test case 15:
+printf   :    EE
+
