@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/04 21:18:34 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/09 11:19:09 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len,
 	if ((params->flags->flag_plus || params->flags->flag_space)
 		&& 0 <= sign)
 	{
+		--(*print_len);
 		if (params->flags->flag_plus)
+		{
 			byte += write(STDOUT_FD, "+", sizeof(char));
+			*print_len -= *conv_len + 1;
+		}
 		else
 			byte += write(STDOUT_FD, " ", sizeof(char));
-		--(*print_len);
 	}
 	return (byte);
 }
@@ -77,6 +80,11 @@ static size_t	ft_write_int(t_params *params, size_t put_prec, size_t print_len)
 	{
 		if (c == '0')
 			byte += ft_write_flags(params, &print_len, &conv_len);
+		if ((params->flags->flag_plus || params->flags->flag_space)
+			&& 0 <= ft_atoi(params->converted) && *params->precision != 0)
+			--print_len;
+//		else if (*params->converted == '0' && params->flags->flag_plus)
+//			print_len = 0;
 		while (put_prec + conv_len < print_len--)
 			byte += write(STDOUT_FD, &c, sizeof(char));
 		if (c == ' ')
@@ -117,12 +125,14 @@ size_t	ft_write_number(t_params *params)
 			if (!params->flags->flag_minus)
 				++print_len;
 //			put_prec += (*params->precision - ((ssize_t)conv_len - 1));
-			++put_prec;
+			if (0 < *params->precision)
+				++put_prec;
 		}
 	}
 	else
 		print_len = *params->width;
-	if (conv_len < *params->precision || put_prec == 1)
+	if ((put_prec == 1 && *params->precision != 0)
+			|| conv_len < *params->precision)
 		put_prec += (*params->precision - conv_len);
 	if (*params->width <= conv_len && *params->precision <= conv_len
 			&& *params->precision != 0 && put_prec != 1)

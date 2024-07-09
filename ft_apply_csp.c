@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:56:15 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/28 20:28:56 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/09 09:36:25 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_apply_character(int arg)
 	char	*str;
 
 	str = NULL;
-	str = ft_calloc(1, sizeof(char));
+	str = ft_calloc(2, sizeof(char));
 	if (str)
 	{
 		if (arg)
