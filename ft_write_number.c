@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/09 11:19:09 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/10 18:07:28 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,43 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len,
 	sign = ft_atoi(params->converted);
 	if ((((params->flags->flag_zero && params->specifier != 'u')
 		 || (size_t)*params->precision > ft_strlen(params->converted) - 1))
-			&& sign < 0)
+			&& sign < 0 && *params->converted != '0')
 	{
 		byte += write(STDOUT_FD, "-", sizeof(char));
-		--(*print_len);
+		if (0 < *print_len)
+			--(*print_len);
 		--(*conv_len);
+//		if ((ssize_t)*conv_len < *params->width && params->flags->flag_plus
+//				&& !params->flags->flag_zero && 0 < *print_len)
+//			*print_len -= 2;
 		params->converted = ft_substr(params->converted, 1,
 				(size_t)conv_len);
 	}
 	if ((params->flags->flag_plus || params->flags->flag_space)
 		&& 0 <= sign)
 	{
-		--(*print_len);
+		if (0 < *print_len)
+		{
+			if (!params->flags->flag_zero)
+				--(*print_len);
+			if ((conv_len + 1) < print_len && 0 < *print_len)
+				*print_len -= *conv_len + 1;
+		}
+//			*print_len -= *conv_len + 1;
 		if (params->flags->flag_plus)
 		{
 			byte += write(STDOUT_FD, "+", sizeof(char));
-			*print_len -= *conv_len + 1;
+//			if (sign < 0)
+//				--(*print_len);
+//			*print_len -= *conv_len + 1;
 		}
 		else
 			byte += write(STDOUT_FD, " ", sizeof(char));
 	}
+	if ((ssize_t)*conv_len < *params->width && (params->flags->flag_plus
+			|| params->flags->flag_space) && params->flags->flag_minus 
+			&& 0 < *print_len && sign < 0)
+		--(*print_len);
 	return (byte);
 }
 
@@ -73,6 +90,8 @@ static size_t	ft_write_int(t_params *params, size_t put_prec, size_t print_len)
 			--print_len;
 		}
 		byte += write(STDOUT_FD, params->converted, conv_len);
+//		if ((ssize_t)conv_len < *params->width && params->flags->flag_plus)
+//			--print_len;
 		while (conv_len < print_len--)
 			byte += write(STDOUT_FD, " ", sizeof(char));
 	}
@@ -81,8 +100,11 @@ static size_t	ft_write_int(t_params *params, size_t put_prec, size_t print_len)
 		if (c == '0')
 			byte += ft_write_flags(params, &print_len, &conv_len);
 		if ((params->flags->flag_plus || params->flags->flag_space)
-			&& 0 <= ft_atoi(params->converted) && *params->precision != 0)
-			--print_len;
+//			&& (0 <= ft_atoi(params->converted) || *params->precision != 0))
+//			&& ((params->flags->flag_plus || *params->precision != 0)
+//   			&& (*params->precision != 0 && 0 < print_len))
+   			&& 0 < print_len)
+					--print_len;
 //		else if (*params->converted == '0' && params->flags->flag_plus)
 //			print_len = 0;
 		while (put_prec + conv_len < print_len--)
@@ -122,15 +144,23 @@ size_t	ft_write_number(t_params *params)
 		*params->width = 0;
 		if (ft_atoi(params->converted) < 0)
 		{
-			if (!params->flags->flag_minus)
+			if (!params->flags->flag_minus || conv_len < *params->width)
+			{
 				++print_len;
+//			if (conv_len < *params->width)
+			}
 //			put_prec += (*params->precision - ((ssize_t)conv_len - 1));
 			if (0 < *params->precision)
 				++put_prec;
+//			if (conv_len < *params->width)
+//				++print_len;
 		}
 	}
 	else
 		print_len = *params->width;
+	if (conv_len < *params->width && ft_atoi(params->converted) < 0
+			&& (params->flags->flag_plus || params->flags->flag_space))
+		++print_len;
 	if ((put_prec == 1 && *params->precision != 0)
 			|| conv_len < *params->precision)
 		put_prec += (*params->precision - conv_len);
