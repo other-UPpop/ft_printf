@@ -1,10 +1,2 @@
-ft_printf :+    , +5   , -1   , -10  , +100 , -1862, -2147483648, +2147483647
-flag
-flag
-flag
-flag
-flag
-flag
-flag
-flag
-   printf :+    , +5   , -1   , -10  , +100 , -1862, -2147483648, +2147483647
+ft_printf :0         , 0x5       , 0xffffffff, 0xfffffff6, 0x1234    , 0xfffff8ba, 0xabcde   , 0x80000000, 0x7fffffff, 0xffffffff
+   printf :0         , 0x5       , 0xffffffff, 0xfffffff6, 0x1234    , 0xfffff8ba, 0xabcde   , 0x80000000, 0x7fffffff, 0xffffffff
