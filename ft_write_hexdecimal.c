@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 15:01:37 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/12 17:21:18 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/13 15:20:33 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len)
 	{
 			if (2 <= *print_len)
 				*print_len -= 2;
-			if (ft_strchr("xp", params->specifier))
+			if (params->specifier == 'x')
 				byte += write(STDOUT_FD, "0x", 2);
 			else
 				byte += write(STDOUT_FD, "0X", 2);
@@ -101,16 +101,6 @@ static size_t	ft_write_xp(t_params *params, ssize_t put_prec,
 		byte += ft_not_minus(params, put_prec, print_len, conv_len, c);
 	return (byte);
 }
-
-
-//static void	ft_check_flag(t_params *params)
-//{
-//	if (params->flags->flag_minus || *params->precision != NOT_SPEC)
-//			params->flags->flag_zero = false;
-//	params->flags->flag_space = false;
-//	params->flags->flag_plus = false;
-//}
-//
 
 size_t ft_write_hex(t_params *params)
 {

@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:08:58 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/12 17:09:44 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/13 15:01:14 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,88 +14,57 @@
 
 static char	*ft_apply_args(char specifier, va_list args)
 {
-	char	*str;
-
-	str = NULL;
 	if (specifier == 'c')
-		str = ft_apply_character(va_arg(args, int));
+		return (ft_apply_character(va_arg(args, int)));
 	else if (specifier == 's')
-		str = ft_apply_string(va_arg(args, char *));
+		return ( ft_apply_string(va_arg(args, char *)));
 	else if (specifier == 'p')
-		str = ft_apply_pointer(va_arg(args, size_t));
+		return ( ft_apply_pointer(va_arg(args, size_t)));
 	else if (specifier == 'd' || specifier == 'i')
-		str = ft_apply_desimals(va_arg(args, int), 10, DESIMALS);
+		return (ft_apply_desimals(va_arg(args, int), 10, DESIMALS));
 	else if (specifier == 'u')
-		str = ft_apply_hex(va_arg(args, unsigned int), 10, DESIMALS);
+		return(ft_apply_hex(va_arg(args, unsigned int), 10, DESIMALS));
 	else if (specifier == 'x')
-		str = ft_apply_hex(va_arg(args, unsigned int), 16, LOW_HEX);
+		return (ft_apply_hex(va_arg(args, unsigned int), 16, LOW_HEX));
 	else if (specifier == 'X')
-		str = ft_apply_hex(va_arg(args, unsigned int), 16, UP_HEX);
+		return (ft_apply_hex(va_arg(args, unsigned int), 16, UP_HEX));
 	else if (specifier == '%')
-		str = ft_apply_character(specifier);
-	return (str);
+		return (ft_apply_character(specifier));
+	return (NULL);
 }
 
-
-
-//static char	*ft_check_mods(char *format, t_params *params)
-//{
-//	char	*tmp;
-//	size_t	index;
-//	size_t	start;
-//	ssize_t	*mod;
-//
-//	index = 0;
-//	mod = params->width;
-//	tmp = NULL;
-//	while (ft_isdigit(format[index]) || format[index] == '.')
-//	{
-//		if (format[index] == '.')
-//		{
-//			params->dot = true;
-//			*params->precision = 0;
-//			mod = params->precision;
-//			++index;
-//		}
-//		start = index;
-//		while (ft_isdigit(format[index]))
-//			++index;
-//		tmp = ft_substr(format, start, index - start);
-//		*mod = ft_atoi(tmp);
-//		free (tmp);
-//		tmp = NULL;
-//	}
-//	return (format + index);
-//}
 static char *ft_check_mods(char *format, t_params *params)
 {
-    size_t index = 0;
-    ssize_t *mod = params->width;
+	char	*tmp;
+	size_t index;
+	size_t	start;
+	ssize_t *mod;
 
-    while (format[index] && (ft_isdigit(format[index]) || format[index] == '.'))
-    {
-        if (format[index] == '.')
-        {
-            params->dot = true;
-            *params->precision = 0;
-            mod = params->precision;
-            ++index;
-        }
-        
-        size_t start = index;
-        while (ft_isdigit(format[index]))
-            ++index;
-
-        if (index > start) {
-            char *tmp = ft_substr(format, start, index - start);
-            if (tmp) {
-                *mod = ft_atoi(tmp);
-                free(tmp);
-            }
-        }
-    }
-    
-    return (format + index);
+	index = 0;
+	mod = params->width;
+	while ((ft_isdigit(format[index]) || format[index] == '.'))
+	{
+		if (format[index] == '.')
+		{
+			params->dot = true;
+			*params->precision = 0;
+			mod = params->precision;
+			++index;
+		}
+		start = index;
+		while (ft_isdigit(format[index]))
+			++index;
+		if (index > start)
+		{
+			tmp = ft_substr(format, start, index - start);
+			if (tmp)
+			{
+				*mod = ft_atoi(tmp);
+				free(tmp);
+			}
+		}
+	}
+	return (format + index);
 }
 
 static char	*ft_check_flags(char *format, t_flags *flags)
@@ -104,13 +73,13 @@ static char	*ft_check_flags(char *format, t_flags *flags)
 	{
 		if (*format == '-')
 			flags->flag_minus = true;
-		if (*format == '+')
+		else if (*format == '+')
 			flags->flag_plus = true;
-		if (*format == ' ')
+		else if (*format == ' ')
 			flags->flag_space = true;
-		if (*format == '0')
+		else if (*format == '0')
 			flags->flag_zero = true;
-		if (*format == '#')
+		else if (*format == '#')
 			flags->flag_hashtag = true;
 		++format;
 	}
@@ -124,7 +93,6 @@ char	*ft_printf_check(t_params *params, char *format, va_list args)
 	format = ft_check_mods(format, params);
 	params->specifier = *format;
 	params->converted = ft_apply_args(params->specifier, args);
-	++format;
-	return (format);
+	return (++format);
 }
 

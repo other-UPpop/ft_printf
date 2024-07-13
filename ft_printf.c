@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:52 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/29 13:03:17 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/13 14:53:11 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (byte);
 }
-
