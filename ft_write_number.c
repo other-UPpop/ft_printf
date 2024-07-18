@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/18 19:35:26 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/18 19:46:28 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ static	void	ft_print_len(t_params *params, bool plus_space,
 		--(*print_len);
 }
 
-static	int	ft_zero_check(t_params *params, char *c)
+static	int	ft_zero_check(t_params *params)
 {
 	if (params->flags->flag_zero && *params->precision == NOT_SPEC)
-	{
-		*c = '0';
 		return (1);
-	}
 	return (0);
 }
 
@@ -83,67 +80,55 @@ static	size_t	ft_write_prec(t_params *params, size_t put_prec,
 	return (byte);
 }
 
-//static	size_t	ft_write_width(t_params *params, size_t put_prec,
-//		size_t conv_len, size_t *print_len)
-//{
-//	size_t	byte;
-//	char	c;
-//
-//	byte = 0;
-//	c = ' ';
-//	if (params->flags->flag_minus)
-//	{
-//		while (conv_len < (*print_len)--)
-//			byte += write(STDOUT_FD, " ", sizeof(char));
-//	}
-//	else
-//	{
-//		ft_zero_check(params, &c);
-//		while (put_prec + conv_len < (*print_len)--)
-//			byte += write(STDOUT_FD, &c, sizeof(char));
-//	}
-//	return (byte);
-//}
+static	size_t	ft_write_width(t_params *params, size_t put_prec,
+		size_t conv_len, size_t *print_len)
+{
+	size_t	byte;
+	char	c;
+
+	byte = 0;
+	c = ' ';
+	if (params->flags->flag_minus)
+	{
+		while (conv_len < (*print_len)--)
+			byte += write(STDOUT_FD, " ", sizeof(char));
+	}
+	else
+	{
+		if (ft_zero_check(params) == 1)
+			c = '0';
+		while (put_prec + conv_len < (*print_len)--)
+			byte += write(STDOUT_FD, &c, sizeof(char));
+	}
+	return (byte);
+}
 
 static size_t	ft_write_int(t_params *params, size_t put_prec,
 		size_t print_len, size_t conv_len)
 {
 	size_t	byte;
-//	size_t	i;
 	bool	plus_space;
-	char	c;
 	int		number;
 
-//	i = 0;
 	byte = 0;
 	plus_space = (params->flags->flag_plus || params->flags->flag_space);
-	c = ' ';
 	number = ft_atoi(params->converted);
 	if (params->flags->flag_minus)
 	{
 		byte += ft_write_flags(params, &print_len, &conv_len, &number);
-//		while (i++ < put_prec && print_len--)
-//			byte += write(STDOUT_FD, "0", sizeof(char));
-//		byte += write(STDOUT_FD, params->converted, conv_len);
 		byte += ft_write_prec(params, put_prec, &print_len, conv_len);
 		ft_print_len(params, plus_space, number, &print_len);
-		while (conv_len < print_len--)
-			byte += write(STDOUT_FD, " ", sizeof(char));
+		byte += ft_write_width(params, put_prec, conv_len, &print_len);
 	}
 	else
 	{
-		if (ft_zero_check(params, &c) == 1)
+		if (ft_zero_check(params) == 1)
 			byte += ft_write_flags(params, &print_len, &conv_len, &number);
 		ft_print_len(params, plus_space, number, &print_len);
-//		byte += ft_write_prec(params, put_prec, &print_len, conv_len);
-		while (put_prec + conv_len < print_len--)
-			byte += write(STDOUT_FD, &c, sizeof(char));
-		if (c == ' ')
+		byte += ft_write_width(params, put_prec, conv_len, &print_len);
+		if (ft_zero_check(params) == 0)
 			byte += ft_write_flags(params, &print_len, &conv_len, &number);
 		byte += ft_write_prec(params, put_prec, &print_len, conv_len);
-//		while (i++ < put_prec)
-//			byte += write(STDOUT_FD, "0", sizeof(char));
-//		byte += write(STDOUT_FD, params->converted, conv_len);
 	}
 	return (byte);
 }
