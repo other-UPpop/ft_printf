@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/18 18:44:26 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/18 19:35:26 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,61 @@ static	int	ft_zero_check(t_params *params, char *c)
 	return (0);
 }
 
+static	size_t	ft_write_prec(t_params *params, size_t put_prec,
+		size_t *print_len, size_t conv_len)
+{
+	size_t	i;
+	size_t	byte;
+
+	i = 0;
+	byte = 0;
+	if (params->flags->flag_minus)
+	{
+		while (i++ < put_prec && (*print_len)--)
+			byte += write(STDOUT_FD, "0", sizeof(char));
+		byte += write(STDOUT_FD, params->converted, conv_len);
+	}
+	else
+	{
+		while (i++ < put_prec)
+			byte += write(STDOUT_FD, "0", sizeof(char));
+		byte += write(STDOUT_FD, params->converted, conv_len);
+	}
+	return (byte);
+}
+
+//static	size_t	ft_write_width(t_params *params, size_t put_prec,
+//		size_t conv_len, size_t *print_len)
+//{
+//	size_t	byte;
+//	char	c;
+//
+//	byte = 0;
+//	c = ' ';
+//	if (params->flags->flag_minus)
+//	{
+//		while (conv_len < (*print_len)--)
+//			byte += write(STDOUT_FD, " ", sizeof(char));
+//	}
+//	else
+//	{
+//		ft_zero_check(params, &c);
+//		while (put_prec + conv_len < (*print_len)--)
+//			byte += write(STDOUT_FD, &c, sizeof(char));
+//	}
+//	return (byte);
+//}
+
 static size_t	ft_write_int(t_params *params, size_t put_prec,
 		size_t print_len, size_t conv_len)
 {
 	size_t	byte;
-	size_t	i;
+//	size_t	i;
 	bool	plus_space;
 	char	c;
 	int		number;
 
-	i = 0;
+//	i = 0;
 	byte = 0;
 	plus_space = (params->flags->flag_plus || params->flags->flag_space);
 	c = ' ';
@@ -77,9 +122,10 @@ static size_t	ft_write_int(t_params *params, size_t put_prec,
 	if (params->flags->flag_minus)
 	{
 		byte += ft_write_flags(params, &print_len, &conv_len, &number);
-		while (i++ < put_prec && print_len--)
-			byte += write(STDOUT_FD, "0", sizeof(char));
-		byte += write(STDOUT_FD, params->converted, conv_len);
+//		while (i++ < put_prec && print_len--)
+//			byte += write(STDOUT_FD, "0", sizeof(char));
+//		byte += write(STDOUT_FD, params->converted, conv_len);
+		byte += ft_write_prec(params, put_prec, &print_len, conv_len);
 		ft_print_len(params, plus_space, number, &print_len);
 		while (conv_len < print_len--)
 			byte += write(STDOUT_FD, " ", sizeof(char));
@@ -89,13 +135,15 @@ static size_t	ft_write_int(t_params *params, size_t put_prec,
 		if (ft_zero_check(params, &c) == 1)
 			byte += ft_write_flags(params, &print_len, &conv_len, &number);
 		ft_print_len(params, plus_space, number, &print_len);
+//		byte += ft_write_prec(params, put_prec, &print_len, conv_len);
 		while (put_prec + conv_len < print_len--)
 			byte += write(STDOUT_FD, &c, sizeof(char));
 		if (c == ' ')
 			byte += ft_write_flags(params, &print_len, &conv_len, &number);
-		while (i++ < put_prec)
-			byte += write(STDOUT_FD, "0", sizeof(char));
-		byte += write(STDOUT_FD, params->converted, conv_len);
+		byte += ft_write_prec(params, put_prec, &print_len, conv_len);
+//		while (i++ < put_prec)
+//			byte += write(STDOUT_FD, "0", sizeof(char));
+//		byte += write(STDOUT_FD, params->converted, conv_len);
 	}
 	return (byte);
 }
