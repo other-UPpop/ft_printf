@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/18 12:37:42 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/18 20:24:42 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,14 @@ size_t	ft_write_unsigned(t_params *params);
 size_t	ft_write_hex(t_params *params);
 ssize_t	ft_write_string(t_params *params);
 size_t	ft_write_pointer(t_params *params);
+int		ft_zero_check(t_params *params);
+size_t	ft_write_prec(t_params *params, size_t put_prec, size_t *print_len,
+			size_t conv_len);
+size_t	ft_write_width(t_params *params, size_t put_prec, size_t conv_len,
+			size_t *print_len);
+void	ft_conv_prec(t_params *params, ssize_t conv_len, size_t *put_prec,
+			size_t *print_len);
+void	ft_prec_dot(t_params *params, size_t *print_len, size_t *put_prec,
+			int number);
 
 #endif
