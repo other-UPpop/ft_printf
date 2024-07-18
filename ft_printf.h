@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/06/30 19:25:38 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/18 12:37:42 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,33 @@
 # include <unistd.h>
 # include <stdio.h>
 
-#ifndef PRINTFf_NULL
-# define PRINTF_NULL -1
-#endif
+# ifndef PRINTFf_NULL
+#  define PRINTF_NULL -1
+# endif
 
-#ifndef STDOUT_FD
-# define STDOUT_FD 1
-#endif
+# ifndef STDOUT_FD
+#  define STDOUT_FD 1
+# endif
 
-#ifndef NOT_SPEC
-# define NOT_SPEC -1
-#endif
+# ifndef NOT_SPEC
+#  define NOT_SPEC -1
+# endif
 
-#ifndef FLAGS
-# define FLAGS "-+ 0#"
-#endif
+# ifndef FLAGS
+#  define FLAGS "-+ 0#"
+# endif
 
-#ifndef DESIMALS
-# define DESIMALS "0123456789"
-#endif
+# ifndef DESIMALS
+#  define DESIMALS "0123456789"
+# endif
 
-#ifndef LOW_HEX
-# define LOW_HEX "0123456789abcdef"
-#endif
+# ifndef LOW_HEX
+#  define LOW_HEX "0123456789abcdef"
+# endif
 
-#ifndef UP_HEX
-# define UP_HEX "0123456789ABCDEF"
-#endif
+# ifndef UP_HEX
+#  define UP_HEX "0123456789ABCDEF"
+# endif
 
 typedef struct s_flags
 {

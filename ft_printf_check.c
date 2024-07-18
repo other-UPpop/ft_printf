@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 14:08:58 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/13 15:01:14 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/18 16:07:47 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static char	*ft_apply_args(char specifier, va_list args)
 	if (specifier == 'c')
 		return (ft_apply_character(va_arg(args, int)));
 	else if (specifier == 's')
-		return ( ft_apply_string(va_arg(args, char *)));
+		return (ft_apply_string(va_arg(args, char *)));
 	else if (specifier == 'p')
-		return ( ft_apply_pointer(va_arg(args, size_t)));
+		return (ft_apply_pointer(va_arg(args, size_t)));
 	else if (specifier == 'd' || specifier == 'i')
 		return (ft_apply_desimals(va_arg(args, int), 10, DESIMALS));
 	else if (specifier == 'u')
-		return(ft_apply_hex(va_arg(args, unsigned int), 10, DESIMALS));
+		return (ft_apply_hex(va_arg(args, unsigned int), 10, DESIMALS));
 	else if (specifier == 'x')
 		return (ft_apply_hex(va_arg(args, unsigned int), 16, LOW_HEX));
 	else if (specifier == 'X')
@@ -33,24 +33,27 @@ static char	*ft_apply_args(char specifier, va_list args)
 	return (NULL);
 }
 
-static char *ft_check_mods(char *format, t_params *params)
+static	void	ft_precision(t_params *params, ssize_t **mod, size_t *index)
+{
+	params->dot = true;
+	*mod = (params->precision);
+	**mod = 0;
+	++(*index);
+}
+
+static	char	*ft_check_mods(char *format, t_params *params)
 {
 	char	*tmp;
-	size_t index;
+	size_t	index;
 	size_t	start;
-	ssize_t *mod;
+	ssize_t	*mod;
 
 	index = 0;
 	mod = params->width;
 	while ((ft_isdigit(format[index]) || format[index] == '.'))
 	{
 		if (format[index] == '.')
-		{
-			params->dot = true;
-			*params->precision = 0;
-			mod = params->precision;
-			++index;
-		}
+			ft_precision(params, &mod, &index);
 		start = index;
 		while (ft_isdigit(format[index]))
 			++index;
@@ -95,4 +98,3 @@ char	*ft_printf_check(t_params *params, char *format, va_list args)
 	params->converted = ft_apply_args(params->specifier, args);
 	return (++format);
 }
-
