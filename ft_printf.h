@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/18 20:24:42 by rohta            ###   ########.fr       */
+/*   Updated: 2024/07/23 10:07:52 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include <stdio.h>
 
-# ifndef PRINTFf_NULL
+# ifndef PRINTF_NULL
 #  define PRINTF_NULL -1
 # endif
 
