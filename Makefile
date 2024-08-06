@@ -6,7 +6,7 @@
 #    By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/20 16:13:24 by rohta             #+#    #+#              #
-#    Updated: 2024/07/18 20:18:47 by rohta            ###   ########.fr        #
+#    Updated: 2024/08/06 18:19:43 by rohta            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRC = ft_printf.c ft_printf_check.c ft_params_init.c ft_apply_csp.c \
       ft_apply_diuxX.c ft_write_string.c ft_write_number.c \
       ft_write_hexdecimal.c ft_write_unsigned.c ft_write_pointer.c \
-      ft_write_number_sub.c
+      ft_write_number_sub.c ft_write_number_sub2.c
 OBJ = $(SRC:.c=.o)
 LIBFT_DIR = ./libft
 LIBFT_OBJ = $(LIBFT_DIR)/ft_*.o

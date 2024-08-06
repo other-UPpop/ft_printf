@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:14 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/23 10:07:52 by rohta            ###   ########.fr       */
+/*   Updated: 2024/08/06 18:15:14 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <unistd.h>
 # include <stdio.h>
 
-# ifndef PRINTF_NULL
+# ifndef PRINTFF_NULL
 #  define PRINTF_NULL -1
 # endif
 
@@ -89,5 +89,6 @@ void	ft_conv_prec(t_params *params, ssize_t conv_len, size_t *put_prec,
 			size_t *print_len);
 void	ft_prec_dot(t_params *params, size_t *print_len, size_t *put_prec,
 			int number);
+void	ft_minus_tmp(t_params *params, size_t *conv_len);
 
 #endif

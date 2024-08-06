@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:19:03 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/18 20:22:01 by rohta            ###   ########.fr       */
+/*   Updated: 2024/08/06 18:13:59 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ static size_t	ft_write_flags(t_params *params, size_t *print_len,
 		if (0 < *print_len)
 			--(*print_len);
 		--(*conv_len);
-		params->converted = ft_substr(params->converted, 1,
-				(size_t)conv_len);
+		ft_minus_tmp(params, conv_len);
 	}
 	else if (plus_space && 0 <= *number)
 	{

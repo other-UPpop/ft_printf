@@ -6,7 +6,7 @@
 /*   By: rohta <rohta@student.42tokyo.jp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 13:37:52 by rohta             #+#    #+#             */
-/*   Updated: 2024/07/18 12:30:45 by rohta            ###   ########.fr       */
+/*   Updated: 2024/08/06 17:42:18 by rohta            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ static void	ft_printf_free(t_params *params)
 	free(params);
 }
 
-static size_t	ft_printf_write(t_params *params, va_list *args)
+static size_t	ft_printf_write(t_params *params)
 {
 	size_t	byte;
 
 	byte = 0;
-	if (ft_strchr("cs%", params->specifier))
+	if (ft_strchr("cs", params->specifier))
 		byte += ft_write_string(params);
 	else if (ft_strchr("di", params->specifier))
 		byte += ft_write_number(params);
@@ -36,10 +36,10 @@ static size_t	ft_printf_write(t_params *params, va_list *args)
 		byte += ft_write_unsigned(params);
 	else if (params->specifier == 'p')
 		byte += ft_write_pointer(params);
+	else if (params->specifier == '%')
+		byte += write(STDOUT_FD, "%", sizeof(char));
 	else if (byte == 0)
 		return (PRINTF_NULL);
-	if (params->specifier != '%')
-		va_arg(*args, int);
 	ft_printf_free(params);
 	return (byte);
 }
@@ -59,9 +59,9 @@ int	ft_printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			params = calloc(1, sizeof(t_params));
+			params = ft_calloc(1, sizeof(t_params));
 			format = ft_printf_check(params, (char *)format, args);
-			byte += ft_printf_write(params, &args);
+			byte += ft_printf_write(params);
 		}
 		else
 		{
